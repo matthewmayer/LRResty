@@ -50,5 +50,16 @@ static BOOL _shouldDispatchOnMainQueue = YES;
     }
   }
 }
-
+- (void)restyRequest:(LRRestyRequest *)request didFailWithError:(NSError *)error {
+    if (block) {
+        if (_shouldDispatchOnMainQueue) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                block(nil);
+            });
+        }
+        else {
+            block(nil);
+        }
+    }
+}
 @end
